@@ -1,0 +1,1 @@
+{"connections":[],"__version__":0.1,"workflow_jobs":[{"input_ports":[],"job_name":"Hello World - Python3","output_ports":[{"type":"Text output","id":1,"label":"Text output"}],"job_settings":{}}],"name":"simple","description":""}

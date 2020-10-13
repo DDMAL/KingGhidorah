@@ -1,0 +1,6 @@
+[style]
+based_on_style=chromium
+column_limit=100
+use_tabs=False
+indent_width=2
+continuation_indent_width=2
