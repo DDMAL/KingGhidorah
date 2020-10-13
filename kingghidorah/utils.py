@@ -96,3 +96,11 @@ def create_resource(*args, **kwargs):
     yield tmp
   finally:
     kd.DeleteFile(uuid=tmp["uuid"])
+
+def default_config():
+  return {
+    "domain": "http://localhost/api/",
+    "username": "rodan",
+    "password": "rodan",
+    "proxy": ""
+  }

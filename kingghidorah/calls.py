@@ -8,6 +8,7 @@ import attr
 
 from kingghidorah.sanitizers import _url_sanitizer
 from kingghidorah.exceptions import _UpstreamError, _InvalidURL
+from kingghidorah.utils import default_config
 
 
 def _response(data):
@@ -30,9 +31,13 @@ def _response(data):
 
 class _APIRequest:
 
-  with open(os.path.abspath(os.path.join((os.path.dirname(__file__)),
+  try:
+    with open(os.path.abspath(os.path.join((os.path.dirname(__file__)),
                                          "../config.json"))) as f:
-    config = json.load(f)
+      config = json.load(f)
+  except:
+    config = default_config()
+
 
   domain = config["domain"]
   username = config["username"]
@@ -43,10 +48,13 @@ class _APIRequest:
   client = requests.session()
 
   def __init__(self):
-    with open(
+    try:
+      with open(
         os.path.abspath(os.path.join((os.path.dirname(__file__)),
                                      "../config.json"))) as f:
-      config = json.load(f)
+        config = json.load(f)
+    except FileNotFoundError:
+      config = default_config()
     self.proxy = config["proxy"]
 
   def get(self, url: str):

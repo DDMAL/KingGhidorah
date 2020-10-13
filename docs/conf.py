@@ -6,7 +6,14 @@
 
 # -- Import statements -------------------------------------------------------
 
-from m2r import M2RParser
+import os
+import subprocess
+
+# RTD doesn't want to install with poetry all that well... so we're going to
+# install this manually :)
+if os.environ.get("READTHEDOCS") == "True":
+  subprocess.check_output(["pip", "install", "m2r"])
+  subprocess.check_output(["pip", "install", "kingghidorah"])
 
 import kingghidorah
 
@@ -35,12 +42,11 @@ release = kingghidorah.__version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-  "m2r",
-  "sphinx.ext.autodoc",
-  "sphinx.ext.autosummary",
-  # 'sphinx.ext.autosectionlabel',
+  'alabaster',
+  # 'recommonmark', Removed in favor of the more featured m2r
+  'm2r',
+  'sphinx.ext.autodoc'
 ]
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -50,6 +56,9 @@ templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 autosectionlabel_prefix_document = True
 source_suffix = [".rst", ".md"]
+# [Autodoc] Order documentation by source order, not alphabetically.
+autodoc_member_order = 'bysource'
+master_doc = 'index'
 
 # -- Options for HTML output -------------------------------------------------
 
