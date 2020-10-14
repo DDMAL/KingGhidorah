@@ -1,6 +1,7 @@
 # Examples
 
 ## Getting started
+
 ```bash
 pip install kingghidorah
 
@@ -10,6 +11,7 @@ pip install kingghidorah
 ## Getting information from Rodan
 
 You can gather all information in Rodan
+
 ```python
 import kingghidorah as kd
 
@@ -56,6 +58,7 @@ kd.GetAllJobs()
 ```
 
 Or you can gather specific information
+
 ```python
 import kingghidorah as kd
 
@@ -215,5 +218,5 @@ running_job = kd.RunWorkflow(
   resource_assignments=resource_assignments,
 )
 
-# Wait until the job finishes 
+# Wait until the job finishes
 ```
