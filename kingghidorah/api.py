@@ -632,7 +632,7 @@ def DeleteProject(uuid: str):
 
   try:
     call.delete("project/" + uuid)
-  except kd.exceptions._Error:
+  except kd.exceptions._UpstreamError:
     raise Exception("Deleting project failed.")
 
   return {"status": f"Project {uuid} deleted"}
@@ -651,7 +651,7 @@ def DeleteWorkflow(uuid: str) -> dict:
 
   try:
     call.delete("workflow/" + uuid)
-  except kd.exceptions._Error:
+  except kd.exceptions._UpstreamError:
     raise Exception("Deleting workflow failed.")
 
   return {"status": f"Workflow {uuid} deleted"}
@@ -672,7 +672,7 @@ def DeleteFile(uuid: str, force=False) -> dict:
 
   try:
     call.delete("resource/" + uuid)
-  except kd.exceptions._Error:
+  except kd.exceptions._UpstreamError:
     raise Exception("Deleting resource failed.")
 
   return {"status": f"Resource {uuid} deleted"}
