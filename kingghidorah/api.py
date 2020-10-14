@@ -1,4 +1,5 @@
 import json
+from typing import Union
 
 import kingghidorah as kd
 from kingghidorah.calls import _APIRequest
@@ -7,7 +8,7 @@ from kingghidorah.utils import _check_index
 
 
 @_check_index
-def GetAllProjects():
+def GetAllProjects() -> list:
   """Get's all projects available for the current user and returns a list.
 
     :return: Returns a list of Objects that have the following properties.
@@ -41,11 +42,12 @@ def GetAllProjects():
 
             **These properties can be used to search for a specific project or a group of projects.**
 	"""
+  # return _APIRequest().get(f"/projects/?name__icontains={name}")["results"]
   return _APIRequest().get("/projects")["results"]
 
 
 @_check_index
-def GetAllWorkflows():
+def GetAllWorkflows() -> list:
   """Get's all Workflows available for the current user and returns a list.
 
     :return: Returns a list of Objects that have the following properties.
@@ -73,11 +75,12 @@ def GetAllWorkflows():
 
             **These properties can be used to search for a workflow or a group of workflows.**
 	"""
+  # return _APIRequest().get(f"/workflows/?name__icontains={name}")["results"]
   return _APIRequest().get("/workflows")["results"]
 
 
 @_check_index
-def GetAllResourceTypes():
+def GetAllResourceTypes() -> list:
   """Get's all ResourceTypes available for Rodan returns a list.
 
     When a job is loaded into Rodan, resource types that are used in the rodan job are defined in a yaml file (resource_types.yml).
@@ -99,11 +102,14 @@ def GetAllResourceTypes():
 
             **These properties can be used to search for a specific resourcetype.**
 	"""
+  # if name is not None:
+  #   return _APIRequest().get(f"/resourcetypes/?mimetype__icontains={name}&format=json")["results"]
+  # else:
   return _APIRequest().get("/resourcetypes")["results"]
 
 
 @_check_index
-def GetAllResources():
+def GetAllResources() -> list:
   """Get's all Resources from all projects
 
     :return: Returns a list of Objects that have the following properties.
@@ -139,11 +145,12 @@ def GetAllResources():
 
             **These properties can be used to search for a specific resources.**
 	"""
+  # return _APIRequest().get(f"/resources/?name__icontains={name}&format=json")["results"]
   return _APIRequest().get("/resources")["results"]
 
 
 @_check_index
-def GetAllInputs():
+def GetAllInputs() -> list:
   """Get's all inputs from all projects
 
     :return: Returns a list of Objects that have the following properties.
@@ -171,7 +178,7 @@ def GetAllInputs():
 
 
 @_check_index
-def GetAllOutputs():
+def GetAllOutputs() -> list:
   """Get's all outputs from all projects
 
     :return: Returns a list of Objects that have the following properties.
@@ -199,7 +206,7 @@ def GetAllOutputs():
 
 
 @_check_index
-def GetAllJobs():
+def GetAllJobs() -> list:
   """Get's all jobs from all projects
 
     :return: Returns a list of Objects that have the following properties.
@@ -234,7 +241,7 @@ def GetAllJobs():
   return _APIRequest().get("/jobs")["results"]
 
 
-def GetProject(uuid):
+def GetProject(uuid) -> dict:
   """Retrive a project by UUID
 
     :param [uuid]: A string of the UUID for a specific Rodan Project
@@ -290,7 +297,7 @@ def GetProject(uuid):
   return _APIRequest().get("/project/" + uuid)
 
 
-def GetWorkflow(uuid=None):
+def GetWorkflow(uuid=None) -> dict:
   """Retrive a workflow by UUID
 
     :param [uuid]: A string of the UUID to search for.
@@ -396,7 +403,7 @@ def GetWorkflow(uuid=None):
   return _APIRequest().get("/workflow/" + uuid)
 
 
-def GetResource(uuid):
+def GetResource(uuid: str) -> dict:
   """Retrive a resource by UUID
 
     :param [uuid]: The UUID of a resource.
@@ -440,7 +447,7 @@ def GetResource(uuid):
   return _APIRequest().get("/resource/" + uuid)
 
 
-def CreateProject(name):
+def CreateProject(name: str) -> dict:
   """Creates a project for the logged in user.
 
     :param [name]: The name to give to a new project
@@ -463,7 +470,7 @@ def CreateProject(name):
   return _APIRequest().post("/projects", data)
 
 
-def CreateWorkflow(name, project, json_workflow=[]):
+def CreateWorkflow(name: str, project: str, json_workflow=[]) -> dict:
   """Create a workflow
 
     :param [name]: The name you wish to give to the workflow.
@@ -514,7 +521,7 @@ def CreateWorkflow(name, project, json_workflow=[]):
   return req
 
 
-def RunWorkflow(name, workflow, resource_assignments={}, description: str = []):
+def RunWorkflow(name: str, workflow: str, resource_assignments: dict={}, description: str = []) -> dict:
   """Run a specific workflow
 
     :param [name]: The name to give to the workflow.
@@ -543,7 +550,7 @@ def RunWorkflow(name, workflow, resource_assignments={}, description: str = []):
   return call.post("/workflowruns", json=data)
 
 
-def UploadFile(name, mime_type, project, description=""):
+def UploadFile(name: Union[str, list], mime_type: str, project: str, description: str="") -> Union[str, list]:
   """Upload a file to Rodan
 
     :param [name]: A filepath to the file you wish to upload
@@ -588,7 +595,7 @@ def UploadFile(name, mime_type, project, description=""):
     return data
 
 
-def ModifyFile(uuid, name=None, description=None, resource_type=None, labels=None):
+def ModifyFile(uuid: str, name: str=None, description: str=None, resource_type: str=None, labels: str=None) -> dict:
   """
 	Modify File uploaded
   """
@@ -608,7 +615,7 @@ def ModifyFile(uuid, name=None, description=None, resource_type=None, labels=Non
   return f
 
 
-def DeleteProject(uuid):
+def DeleteProject(uuid: str):
   """Delete a project from existance on Rodan.
 
     **This will also delete all resources, workflow, runjobs, etc. associated with this project.
@@ -631,7 +638,7 @@ def DeleteProject(uuid):
   return {"status": f"Project {uuid} deleted"}
 
 
-def DeleteWorkflow(uuid):
+def DeleteWorkflow(uuid: str) -> dict:
   """Delete a workflow from Rodan.
 
     :param [uuid]: A UUID of the workflow you want to delete.
@@ -650,7 +657,7 @@ def DeleteWorkflow(uuid):
   return {"status": f"Workflow {uuid} deleted"}
 
 
-def DeleteFile(uuid, force=False):
+def DeleteFile(uuid: str, force=False) -> dict:
   """Delete a file from Rodan
 
     As with most API points sent a DELETE method to rodan, it doesn't reply with anything (which it should),
@@ -671,7 +678,7 @@ def DeleteFile(uuid, force=False):
   return {"status": f"Resource {uuid} deleted"}
 
 
-def GetWorkflowJob(uuid):
+def GetWorkflowJob(uuid: str) -> dict:
   """
   """
   call = _APIRequest()

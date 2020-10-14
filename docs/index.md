@@ -9,6 +9,7 @@ Contents
     specific_searching_interface
     create_or_upload
     delete
+    examples
 
 Indices and tables
 ==================
