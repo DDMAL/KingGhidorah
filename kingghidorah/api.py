@@ -8,7 +8,7 @@ from kingghidorah.utils import _check_index
 
 
 @_check_index
-def GetAllProjects() -> list:
+def GetAllProjects(name=None) -> list:
   """Get's all projects available for the current user and returns a list.
 
     :return: Returns a list of Objects that have the following properties.
@@ -42,8 +42,10 @@ def GetAllProjects() -> list:
 
             **These properties can be used to search for a specific project or a group of projects.**
 	"""
-  # return _APIRequest().get(f"/projects/?name__icontains={name}")["results"]
-  return _APIRequest().get("/projects")["results"]
+  if name is not None:
+    return _APIRequest().get(f"/projects/?name__icontains={name}&format=json")["results"]
+  else:
+    return _APIRequest().get("/projects")["results"]
 
 
 @_check_index

@@ -11,8 +11,8 @@ from kingghidorah.exceptions import _NoMoreResources
 def _check_index(func):
 
   @wraps(func)
-  def wrapper():
-    data = func()
+  def wrapper(*args, **kwargs):
+    data = func(*args, **kwargs)
     try:
       data[-1]
     except IndexError:
