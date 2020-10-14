@@ -12,6 +12,9 @@ A scripting interface for the Rodan API that allows more granular control over y
 - Fill in the user credentials and the Rodan API domain.
   - You can use a proxy to connect to the server too, just make sure that you replace `false` with the proxy information: `"socks5://localhost:5000"`
 - Learn by example by using the calls in the `EXAMPLES.md` file.
+- The `config.json` file should be removed from the git worktree to stop the accidental uploading of actual credentials. If you need to add more fields to it, bring it back and remove it again.
+  - Remove: `git update-index --skip-worktree config.json`
+  - Bring it back: `git update-index --no-skip-worktree config.json`
 
 ## Codestyle
 
