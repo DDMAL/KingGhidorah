@@ -3,7 +3,7 @@ def _url_sanitizer(url):
   if url[0] == "/":
     url = url[1:]
 
-  if "?name__icontains" in url:
+  if "icontains" in url:
     return url
 
   # Check last character
