@@ -38,7 +38,6 @@ class _APIRequest:
   except:
     config = default_config()
 
-
   domain = config["domain"]
   username = config["username"]
   password = config["password"]

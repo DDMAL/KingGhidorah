@@ -100,6 +100,8 @@ kd.GetResource(uuid="xxxxxxxx-9736-4e5b-bbbb-xxxxxxxxxxxx")
 ## Upload to Rodan
 
 ```python
+import kingghidorah as kd
+
 # Get a project, or create a project
 project = kd.CreateProject(name="something")
 
@@ -145,10 +147,12 @@ uploaded_workflow = kd.CreateWorkflow(
 Some parts of this should be familiar now
 
 ```python
+import kingghidorah as kd
+
 complex_workflow = kd.CreateWorkflow(
   name="schema v0.2 workflow",
-  project=self.project["uuid"],
-  json_workflow=self.path + "/json_workflows/v2fast-trainer.json",
+  project=project["uuid"],
+  json_workflow=path + "/json_workflows/v2fast-trainer.json",
 )
 
 # Upload files and run the Job
