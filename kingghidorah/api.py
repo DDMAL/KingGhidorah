@@ -8,7 +8,7 @@ from kingghidorah.utils import _check_index
 
 
 @_check_index
-def GetAllProjects(name=None) -> list:
+def GetAllProjects(name: str="") -> list:
   """Get's all projects available for the current user and returns a list.
 
     :return: Returns a list of Objects that have the following properties.
@@ -42,14 +42,11 @@ def GetAllProjects(name=None) -> list:
 
             **These properties can be used to search for a specific project or a group of projects.**
 	"""
-  if name is not None:
-    return _APIRequest().get(f"/projects/?name__icontains={name}&format=json")["results"]
-  else:
-    return _APIRequest().get("/projects")["results"]
+  return _APIRequest().get(f"/projects/?name__icontains={name}&format=json")["results"]
 
 
 @_check_index
-def GetAllWorkflows() -> list:
+def GetAllWorkflows(name: str="", project: str="") -> list:
   """Get's all Workflows available for the current user and returns a list.
 
     :return: Returns a list of Objects that have the following properties.
@@ -77,12 +74,11 @@ def GetAllWorkflows() -> list:
 
             **These properties can be used to search for a workflow or a group of workflows.**
 	"""
-  # return _APIRequest().get(f"/workflows/?name__icontains={name}")["results"]
-  return _APIRequest().get("/workflows")["results"]
+  return _APIRequest().get(f"/workflows/?project={project}&name__icontains={name}&format=json")["results"]
 
 
 @_check_index
-def GetAllResourceTypes() -> list:
+def GetAllResourceTypes(name: str="", project: str="") -> list:
   """Get's all ResourceTypes available for Rodan returns a list.
 
     When a job is loaded into Rodan, resource types that are used in the rodan job are defined in a yaml file (resource_types.yml).
@@ -104,14 +100,11 @@ def GetAllResourceTypes() -> list:
 
             **These properties can be used to search for a specific resourcetype.**
 	"""
-  # if name is not None:
-  #   return _APIRequest().get(f"/resourcetypes/?mimetype__icontains={name}&format=json")["results"]
-  # else:
-  return _APIRequest().get("/resourcetypes")["results"]
+  return _APIRequest().get(f"/resourcetypes/?mimetype__icontains={name}&format=json")["results"]
 
 
 @_check_index
-def GetAllResources() -> list:
+def GetAllResources(name: str=None, project: str=None) -> list:
   """Get's all Resources from all projects
 
     :return: Returns a list of Objects that have the following properties.
@@ -147,8 +140,7 @@ def GetAllResources() -> list:
 
             **These properties can be used to search for a specific resources.**
 	"""
-  # return _APIRequest().get(f"/resources/?name__icontains={name}&format=json")["results"]
-  return _APIRequest().get("/resources")["results"]
+  return _APIRequest().get(f"/resources/?project={project}&name__icontains={name}&format=json")["results"]
 
 
 @_check_index
@@ -548,7 +540,6 @@ def RunWorkflow(name: str, workflow: str, resource_assignments: dict={}, descrip
     "updated": None,
     "statusText": "Unknown status",
   }
-  print(data["workflow"])
   return call.post("/workflowruns", json=data)
 
 
