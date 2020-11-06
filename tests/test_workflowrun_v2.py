@@ -1,3 +1,5 @@
+import time
+
 import pytest
 
 import kingghidorah as kd
@@ -59,13 +61,13 @@ class TestWorkflowsV02(kdt.KingGhidorahTestCase):
       # 3
       (
         "Training model for Patchwise Analysis of Music Document",
-        "rgba PNG - Music symbol layer",
+        "rgba PNG - Layer 0",
         [layers[1]["url"]],
       ),
       # 4
       (
         "Training model for Patchwise Analysis of Music Document",
-        "rgba PNG - Staff Lines layer",
+        "rgba PNG - Layer 1",
         [layers[2]["url"]],
       ),
       # 5
@@ -81,7 +83,7 @@ class TestWorkflowsV02(kdt.KingGhidorahTestCase):
       port_assignment=jn_ip,
       # resource_assignments={},  # Default value is {} anyway
     )
-
+    time.sleep(1)
     running_job = kd.RunWorkflow(
       name="Training on layers...",
       workflow=complex_workflow["uuid"],

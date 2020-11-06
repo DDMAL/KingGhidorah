@@ -78,7 +78,7 @@ def GetAllWorkflows(name: str="", project: str="") -> list:
 
 
 @_check_index
-def GetAllResourceTypes(name: str="", project: str="") -> list:
+def GetAllResourceTypes(mimetype: str="") -> list:
   """Get's all ResourceTypes available for Rodan returns a list.
 
     When a job is loaded into Rodan, resource types that are used in the rodan job are defined in a yaml file (resource_types.yml).
@@ -100,7 +100,7 @@ def GetAllResourceTypes(name: str="", project: str="") -> list:
 
             **These properties can be used to search for a specific resourcetype.**
 	"""
-  return _APIRequest().get(f"/resourcetypes/?mimetype__icontains={name}&format=json")["results"]
+  return _APIRequest().get(f"/resourcetypes/?mimetype__icontains={mimetype}&format=json")["results"]
 
 
 @_check_index

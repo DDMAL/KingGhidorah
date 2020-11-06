@@ -1,49 +1,35 @@
 import os
 import unittest
+import urllib
 
 import kingghidorah as kd
 from kingghidorah.utils import random_gen
 
 
 class KingGhidorahTestCase(unittest.TestCase):
+  # Filetypes
+  tiff_filetype = [
+    i for i in kd.GetAllResourceTypes() if i["extension"] == "tiff"
+  ][0]
+  rgb_png_filetype = kd.GetAllResourceTypes(mimetype=urllib.parse.quote_plus("rgb+png"))[0]
+  rgba_png_filetype = kd.GetAllResourceTypes(mimetype=urllib.parse.quote_plus("rgba+png"))[0]
+  hdf5_filetype = kd.GetAllResourceTypes(mimetype=urllib.parse.quote_plus("model+hdf5"))[0]
+  gamera_xml_filetype = kd.GetAllResourceTypes(mimetype=urllib.parse.quote_plus("gamera+xml"))[0]
+  csv_filetype = kd.GetAllResourceTypes(mimetype=urllib.parse.quote_plus("text/csv"))[0]
+  plaintext_filetype = kd.GetAllResourceTypes(mimetype=urllib.parse.quote_plus("text/plain"))[0]
+  pyrnn_filetype = kd.GetAllResourceTypes(mimetype=urllib.parse.quote_plus("pyrnn"))[0]
 
   def setUp(self):
     # Cleanup just in case the workspace is dirty.
-    try:
-      for p in kd.GetAllProjects():
-        kd.DeleteProject(uuid=p["uuid"])
-    except kd.exceptions._NoMoreResources:
-      pass
+    # try:
+    #   for p in kd.GetAllProjects():
+    #     kd.DeleteProject(uuid=p["uuid"])
+    # except kd.exceptions._NoMoreResources:
+    #   pass
 
     self.random_project_name = random_gen()
     self.project = kd.CreateProject(name=self.random_project_name)
     self.path = os.path.dirname(__file__)
-
-    # Filetypes
-    self.tiff_filetype = [
-      i for i in kd.GetAllResourceTypes() if i["extension"] == "tiff"
-    ][0]
-    self.rgb_png_filetype = [
-      i for i in kd.GetAllResourceTypes() if i["mimetype"] == "image/rgb+png"
-    ][0]
-    self.rgba_png_filetype = [
-      i for i in kd.GetAllResourceTypes() if i["mimetype"] == "image/rgba+png"
-    ][0]
-    self.hdf5_filetype = [
-      i for i in kd.GetAllResourceTypes() if i["mimetype"] == "keras/model+hdf5"
-    ][0]
-    self.gamera_xml_filetype = [
-      i for i in kd.GetAllResourceTypes() if i["mimetype"] == "application/gamera+xml"
-    ][0]
-    self.csv_filetype = [
-      i for i in kd.GetAllResourceTypes() if i["mimetype"] == "text/csv"
-    ][0]
-    self.plaintext_filetype = [
-      i for i in kd.GetAllResourceTypes() if i["mimetype"] == "text/plain"
-    ][0]
-    self.pyrnn_filetype = [
-      i for i in kd.GetAllResourceTypes() if "pyrnn" in i["mimetype"]
-    ][0]
 
     self.workflow = kd.CreateWorkflow(
       name="test",

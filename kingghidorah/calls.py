@@ -6,6 +6,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import attr
 
+import kingghidorah as kd
 from kingghidorah.sanitizers import _url_sanitizer
 from kingghidorah.exceptions import _UpstreamError, _InvalidURL
 from kingghidorah.utils import default_config
@@ -25,36 +26,32 @@ def _response(data):
     if data == b"":
       pass
     else:
-      # raise _Error(data.decode("utf-8"))
-      raise Exception(data.decode("utf-8"))
+      raise Exception(kd.config["domain"], data.decode("utf-8"))
 
 
 class _APIRequest:
 
-  try:
-    with open(os.path.abspath(os.path.join((os.path.dirname(__file__)),
-                                         "../config.json"))) as f:
-      config = json.load(f)
-  except:
-    config = default_config()
-
-  domain = config["domain"]
-  username = config["username"]
-  password = config["password"]
-  proxy = config["proxy"]
-
-  auth = HTTPBasicAuth(username, password)
-  client = requests.session()
-
   def __init__(self):
-    try:
+
+    # If config is not defined, get the default.
+    if kd.config is None:
       with open(
-        os.path.abspath(os.path.join((os.path.dirname(__file__)),
-                                     "../config.json"))) as f:
-        config = json.load(f)
-    except FileNotFoundError:
-      config = default_config()
-    self.proxy = config["proxy"]
+        os.path.abspath(
+          os.path.join(
+            (os.path.dirname(__file__)),
+            "../config.json")
+          )
+      ) as f:
+        kd.config = json.load(f)
+
+    # self.config = kd.config
+    self.domain = kd.config["domain"]
+    self.username = kd.config["username"]
+    self.password = kd.config["password"]
+    self.proxy = kd.config["proxy"]
+
+    self.auth = requests.auth.HTTPBasicAuth(kd.config["username"], kd.config["password"])
+    self.client = requests.session()
 
   def get(self, url: str):
     url = _url_sanitizer(url)
@@ -127,10 +124,10 @@ class _APIRequest:
 
   def post(self, url, data=None, json=None, files=None):
     """
-        r = self.client.get(self.domain + "auth/me/", auth=self.auth)
-        data = {}
-        data["csrfmiddlewaretoken"] = self.client.cookies['csrftoken'] if 'csrftoken' in self.client.cookies else self.client.cookies['csrf']
-        """
+    r = self.client.get(self.domain + "auth/me/", auth=self.auth)
+    data = {}
+    data["csrfmiddlewaretoken"] = self.client.cookies['csrftoken'] if 'csrftoken' in self.client.cookies else self.client.cookies['csrf']
+    """
     url = _url_sanitizer(url)
     # self.client.headers.update({'Content-Type': 'multipart/form-data;'})
 
