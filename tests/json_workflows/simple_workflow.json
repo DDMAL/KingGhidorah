@@ -1,0 +1,111 @@
+{
+    "__version__": 0.2,
+    "name": "untitled",
+    "description": "",
+    "workflow_jobs": [
+        {
+            "job_name": "PNG (RGB)",
+            "job_settings": {},
+            "input_ports": [
+                {
+                    "label": "Image",
+                    "type": "Image",
+                    "id": 1
+                }
+            ],
+            "output_ports": [
+                {
+                    "label": "RGB PNG Image",
+                    "type": "RGB PNG Image",
+                    "id": 2
+                }
+            ],
+            "appearance": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "job_name": "Convert to greyscale PNG",
+            "job_settings": {},
+            "input_ports": [
+                {
+                    "label": "PNG image",
+                    "type": "PNG image",
+                    "id": 3
+                }
+            ],
+            "output_ports": [
+                {
+                    "label": "Greyscale PNG image",
+                    "type": "Greyscale PNG image",
+                    "id": 4
+                }
+            ],
+            "appearance": {
+                "x": 0.49117647058823544,
+                "y": 0.5220588235294118
+            }
+        },
+        {
+            "job_name": "Despeckle",
+            "job_settings": {
+                "Connected component size": 1
+            },
+            "input_ports": [
+                {
+                    "label": "Onebit PNG image",
+                    "type": "Onebit PNG image",
+                    "id": 5
+                }
+            ],
+            "output_ports": [
+                {
+                    "label": "Onebit PNG despeckled image",
+                    "type": "Onebit PNG despeckled image",
+                    "id": 6
+                }
+            ],
+            "appearance": {
+                "x": 0.4803921568627451,
+                "y": 0.5643382352941175
+            }
+        },
+        {
+            "job_name": "Convert to one-bit (black and white) PNG",
+            "job_settings": {},
+            "input_ports": [
+                {
+                    "label": "PNG image",
+                    "type": "PNG image",
+                    "id": 7
+                }
+            ],
+            "output_ports": [
+                {
+                    "label": "One-bit PNG image",
+                    "type": "One-bit PNG image",
+                    "id": 8
+                }
+            ],
+            "appearance": {
+                "x": 0.4784313725490196,
+                "y": 0.5401348039215685
+            }
+        }
+    ],
+    "connections": [
+        {
+            "output_port": 2,
+            "input_port": 3
+        },
+        {
+            "output_port": 8,
+            "input_port": 5
+        },
+        {
+            "output_port": 4,
+            "input_port": 7
+        }
+    ]
+}
